@@ -1,1 +1,175 @@
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title> BSF</title>
+  </head>
+  <body>
+  <p id="result">Total Number of Y where Bob can visit</p>
 
+  <script type="text/javascript" charset="utf-8" async defer>
+  
+  var bobPath =[
+    [0,0,1,0,1,0,1,0],
+    [0,0,0,1,0,0,0,1],
+    [1,0,1,0,0,0,1,0],
+    [0,1,0,1,0,1,0,1],
+    [1,0,1,0,1,0,0,0],
+    [0,1,0,1,0,1,0,0],
+    [1,0,1,0,1,0,0,0],
+    [0,1,0,1,0,0,0,1],
+    [1,0,1,0,1,0,1,0],
+    [0,1,0,8,0,1,0,1]
+  ];
+
+  bsf(bobPath,9,3);
+
+  function bsf(graph, node, pos)
+  {
+    var tempArr=[];
+    var queue =graph[node];
+    var Be =[];
+    var path_counter=0;
+    var len= new Array(graph.length);
+    for (i=0;i<graph.length;i++)
+    {
+      len[i] = new Array(queue.length);
+    }
+    for (var i=0;i<graph.length;i++)
+    {
+      for (var j=0;j<queue.length;j++)
+      {
+        len[i][j]="unvisited";
+      }
+    }
+
+    var Bob_Enqueue= [[node,pos]];
+
+    while(Bob_Enqueue.length!=0)
+    {
+      if(node==9 && pos==7)
+      {
+        var lowerQ= graph[node-1];
+        var lowerdiagR= lowerQ[pos-1];
+        var isTraversedR = (len[node-1][pos-1]);
+        if (lowerdiagR == 1 && isTraversedR == "unvisited"){
+          Bob_Enqueue.push([node-1,pos-1]);
+          len[node-1][pos-1]="visited";
+        }            
+
+      }
+      else if (node==0)
+      {
+        var upperQ= graph[node+1];
+        var upperdiagL= upperQ[pos-1];
+        var upperdiagR= upperQ[pos+1];
+        var isTraversedL = (len[node+1][pos-1]);
+        var isTraversedR = (len[node+1][pos+1]);
+
+        if (upperdiagL == 1 && isTraversedL == "unvisited"){
+          Bob_Enqueue.push([node+1,pos-1]);
+          len[node+1][pos-1]="visited";
+         }
+        if (upperdiagR == 1 && isTraversedR == "unvisited"){
+          Bob_Enqueue.push([node+1,pos+1]);
+          len[node+1][pos+1]="visited";
+        }
+      }
+      else if(pos==0)
+      {
+        var upperQ= graph[node+1];
+        var lowerQ= graph[node-1];
+        var upperdiagR= upperQ[pos+1];
+        var lowerdiagR= lowerQ[pos+1];
+        var isTraversedR = (len[node-1][pos+1]);
+        var isTraversedUR = (len[node+1][pos+1]);
+
+        if (lowerdiagR == 1 && isTraversedR == "unvisited"){
+          Bob_Enqueue.push([node-1,pos+1]);
+          len[node-1][pos+1]="visited";
+        }
+        if (upperdiagR == 1 && isTraversedUR == "unvisited"){
+          Bob_Enqueue.push([node+1,pos+1]);
+          len[node+1][pos+1]="visited";
+        }
+      }
+      else if(pos==7)
+      {
+        var upperQ= graph[node+1];
+        var lowerQ= graph[node-1];
+        var upperdiagL= upperQ[pos-1];
+        var lowerdiagL= lowerQ[pos-1];
+        var isTraversedL = (len[node-1][pos-1]);
+        var isTraversedUL = (len[node+1][pos-1]);
+
+        if (lowerdiagL == 1 && isTraversedL == "unvisited"){
+          Bob_Enqueue.push([node-1,pos-1]);
+          len[node-1][pos-1]="visited";
+        }
+        if (upperdiagL == 1 && isTraversedUL == "unvisited"){
+          Bob_Enqueue.push([node+1,pos-1]);
+          len[node+1][pos-1]="visited";
+        }                  
+      }
+      else if(node<9 && pos<7)
+      {
+        var upperQ= graph[node+1];
+        var lowerQ= graph[node-1];
+        var upperdiagL= upperQ[pos-1];
+        var upperdiagR= upperQ[pos+1];
+        var lowerdiagL= lowerQ[pos-1];
+        var lowerdiagR= lowerQ[pos+1];
+        var isTraversedL = (len[node-1][pos-1]);
+        var isTraversedR = (len[node-1][pos+1]);
+        var isTraversedUL = (len[node+1][pos-1]);
+        var isTraversedUR = (len[node+1][pos+1]);
+
+        if (lowerdiagL == 1 && isTraversedL == "unvisited"){
+          Bob_Enqueue.push([node-1,pos-1]);
+          len[node-1][pos-1]="visited";
+        }
+        if (lowerdiagR == 1 && isTraversedR == "unvisited"){
+          Bob_Enqueue.push([node-1,pos+1]);
+          len[node-1][pos+1]="visited";
+        }
+        if (upperdiagL == 1 && isTraversedUL == "unvisited"){
+          Bob_Enqueue.push([node+1,pos-1]);
+          len[node+1][pos-1]="visited";
+        }
+        if (upperdiagR == 1 && isTraversedUR == "unvisited"){
+          Bob_Enqueue.push([node+1,pos+1]);
+          len[node+1][pos+1]="visited";
+        }
+      }
+      else if (node==9)
+      {
+        var lowerQ= graph[node-1];
+        var lowerdiagL= lowerQ[pos-1];
+        var lowerdiagR= lowerQ[pos+1];
+        var isTraversedL = (len[node-1][pos-1]);
+        var isTraversedR = (len[node-1][pos+1]);
+
+        if (lowerdiagL == 1 && isTraversedL == "unvisited"){
+          Bob_Enqueue.push([node-1,pos-1]);
+          len[node-1][pos-1]="visited";
+        }
+        if (lowerdiagR == 1 && isTraversedR == "unvisited"){
+          Bob_Enqueue.push([node-1,pos+1]);
+          len[node-1][pos+1]="visited";
+        }
+      }    
+
+      var temp= Bob_Enqueue.shift();  
+      tempArr.push(temp);
+      if(Bob_Enqueue.length!=0)
+      {
+        path_counter++;
+        Be = Bob_Enqueue[0];
+        node =Be[0];
+        pos =Be[1];
+      }
+    }
+    document.getElementById("result").innerHTML ="Bob can traverse on following number of positions :" + path_counter;
+  }
+</script>
+</body>
+</html>
